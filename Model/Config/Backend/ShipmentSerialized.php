@@ -25,8 +25,8 @@ class ShipmentSerialized extends ArraySerialized
         $customerGroups = array_column($customerGroupPrices, 'customer_groups');
         $customerGroupCounts = array_count_values($customerGroups);
 
-        foreach($customerGroupCounts as $customerGroup => $count) {
-            if($count > 1) {
+        foreach ($customerGroupCounts as $customerGroup => $count) {
+            if ($count > 1) {
                 throw new ValidatorException(__('Duplicate group with ID: %1', $customerGroup));
             }
         }

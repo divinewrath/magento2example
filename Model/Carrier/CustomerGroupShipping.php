@@ -7,7 +7,6 @@ use MacoOnboarding\CustomShippingModule\Constants;
 use MacoOnboarding\CustomShippingModule\Provider\ShippingPricesProvider;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Quote\Model\Quote\Address\RateRequest;
@@ -43,8 +42,7 @@ class CustomerGroupShipping extends AbstractCarrier implements CarrierInterface
         CustomerRepositoryInterface $customerRepository,
         ShippingPricesProvider      $shippingPricesProvider,
         array                       $data = []
-    )
-    {
+    ) {
         $this->rateResultFactory = $rateResultFactory;
         $this->rateMethodFactory = $rateMethodFactory;
         $this->customerSession = $customerSession;
@@ -54,8 +52,7 @@ class CustomerGroupShipping extends AbstractCarrier implements CarrierInterface
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
 
-    public
-    function collectRates(RateRequest $request): Result|bool
+    public function collectRates(RateRequest $request): Result|bool
     {
         if (!$this->getConfigFlag('active')) {
             return false;
@@ -64,18 +61,18 @@ class CustomerGroupShipping extends AbstractCarrier implements CarrierInterface
         $shippingPrice = $this->getConfigData('price');
 
         if ($this->customerSession->isLoggedIn()) {
-            $groupPrice = $this->getCustomerGroupPrice(
+            $customerShippingPrice = $this->getShippingPrice(
                 (int)$this->customerSession->getCustomerId()
             );
 
-            if ($groupPrice) {
-                $shippingPrice = $groupPrice;
+            if ($customerShippingPrice) {
+                $shippingPrice = $customerShippingPrice;
             }
         }
 
         $result = $this->rateResultFactory->create();
 
-        if ($shippingPrice !== false) {
+        if ($shippingPrice) {
             $method = $this->rateMethodFactory->create();
 
             $method->setCarrier($this->_code);
@@ -97,27 +94,43 @@ class CustomerGroupShipping extends AbstractCarrier implements CarrierInterface
         return $result;
     }
 
-    public
-    function getAllowedMethods(): array
+    public function getAllowedMethods(): array
     {
         return [
             $this->_code => $this->getConfigData('name')
         ];
     }
 
-    protected
-    function getCustomerById(int $customerId): CustomerInterface
+    protected function getCustomerById(int $customerId): CustomerInterface
     {
         return $this->customerRepository->getById($customerId);
     }
 
-    protected
-    function getCustomerGroupPrice(int $customerId)
+    protected function getShippingPrice(int $customerId)
     {
         $customer = $this->getCustomerById($customerId);
+        if ($shippingPrice = $this->getCustomerPrice($customer)) {
+            return $shippingPrice;
+        }
+
+        return $this->getCustomerGroupPrice($customer);
+    }
+
+    protected function getCustomerGroupPrice(CustomerInterface $customer)
+    {
         $groupId = $customer->getGroupId();
         $groupPrices = $this->shippingPricesProvider->getGroupPrices();
 
         return $groupPrices[$groupId] ?? null;
+    }
+
+    protected function getCustomerPrice(CustomerInterface $customer)
+    {
+        $customAttributes = $customer->getCustomAttributes();
+        if (array_key_exists(Constants::ATTR_CUSTOM_SHIPPING_PRICE, $customAttributes)) {
+            return $customer->getCustomAttribute(Constants::ATTR_CUSTOM_SHIPPING_PRICE)->getValue();
+        }
+
+        return null;
     }
 }
