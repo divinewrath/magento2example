@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="carriers" sortOrder="1000" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+            <group id="customergroupshipping" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                <label>CustomerGroupShipping</label>
+                <field id="active" type="select" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="price" type="text" sortOrder="20" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Default price</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="title" type="text" sortOrder="30" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Title</label>
+                </field>
+                <field id="name" type="text" sortOrder="40" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Method Name</label>
+                </field>
+                <field id="sort_order" type="text" sortOrder="50" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Sort Order</label>
+                </field>
+                <field id="sallowspecific" type="select" sortOrder="60" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Ship to Applicable Countries</label>
+                    <frontend_class>shipping-applicable-country</frontend_class>
+                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" type="multiselect" sortOrder="70" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Ship to Specific Countries</label>
+                    <can_be_empty>1</can_be_empty>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                </field>
+                <field id="specificerrmsg" type="textarea" sortOrder="80" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Displayed Error Message</label>
+                </field>
+                <field id="price_type" type="select" sortOrder="90" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Price type</label>
+                    <source_model>MacoOnboarding\CustomShippingModule\Model\Config\Source\ShipmentPriceType</source_model>
+                </field>
+                <field id="customer_group_price" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer group prices</label>
+                    <frontend_model>MacoOnboarding\CustomShippingModule\Block\Adminhtml\Form\Field\CustomerGroupPrice</frontend_model>
+                    <backend_model>MacoOnboarding\CustomShippingModule\Model\Config\Backend\ShipmentSerialized</backend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
