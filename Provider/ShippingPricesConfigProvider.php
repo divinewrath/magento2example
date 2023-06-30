@@ -7,7 +7,7 @@ use MacoOnboarding\CustomShippingModule\Constants;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 
-class ShippingPricesProvider
+class ShippingPricesConfigProvider
 {
     private ScopeConfigInterface $scopeConfig;
     private JsonSerializer $jsonSerializer;
