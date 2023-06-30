@@ -32,6 +32,10 @@ class ShippingCost implements ResolverInterface
 
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
+        if (!$context->getUserId()) {
+            throw new GraphQlInputException(__('Customer must be logged'));
+        }
+
         if (empty($args['email'])) {
             throw new GraphQlInputException(__('Email field is required'));
         }
