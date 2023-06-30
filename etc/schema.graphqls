@@ -1,0 +1,9 @@
+type Query {
+    customShippingCost (
+        email: String @doc(description: "Query by email.")
+    ) : ShippingCost @resolver( class: "\\MacoOnboarding\\CustomShippingModule\\Model\\GraphQL\\Resolver\\ShippingCost")
+}
+
+type ShippingCost {
+    cost  : String  @doc(description: "Query by cost.")
+}

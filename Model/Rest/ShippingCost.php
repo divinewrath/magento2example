@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace MacoOnboarding\CustomShippingModule\Model;
+namespace MacoOnboarding\CustomShippingModule\Model\Rest;
 
 use MacoOnboarding\CustomShippingModule\Api\Data\ShippingCostInterface;
 use Magento\Framework\Model\AbstractModel;

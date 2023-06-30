@@ -1,35 +1,30 @@
 <?php
 declare(strict_types=1);
 
-namespace MacoOnboarding\CustomShippingModule\Model;
+namespace MacoOnboarding\CustomShippingModule\Model\Rest;
 
-use MacoOnboarding\CustomShippingModule\Api\Data\ShippingCostInterfaceFactory;
 use MacoOnboarding\CustomShippingModule\Api\Data\ShippingCostInterface;
+use MacoOnboarding\CustomShippingModule\Api\Data\ShippingCostInterfaceFactory;
 use MacoOnboarding\CustomShippingModule\Api\ShippingCostManagementInterface;
-use MacoOnboarding\CustomShippingModule\Constants;
+use MacoOnboarding\CustomShippingModule\Provider\CustomerDataProvider;
 use MacoOnboarding\CustomShippingModule\Provider\ShippingCostProvider;
-use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class ShippingCostManagement implements ShippingCostManagementInterface
 {
     private ShippingCostInterfaceFactory $shippingCostFactory;
-    private CustomerRepositoryInterface $customerRepository;
-    private SearchCriteriaBuilder $searchCriteriaBuilder;
+
     private ShippingCostProvider $shippingCostProvider;
+    private CustomerDataProvider $customerDataProvider;
 
     public function __construct(
         ShippingCostInterfaceFactory $shippingCostFactory,
-        CustomerRepositoryInterface $customerRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        ShippingCostProvider $shippingCostProvider
+        ShippingCostProvider         $shippingCostProvider,
+        CustomerDataProvider         $customerDataProvider
     ) {
         $this->shippingCostFactory = $shippingCostFactory;
-        $this->customerRepository = $customerRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->shippingCostProvider = $shippingCostProvider;
+        $this->customerDataProvider = $customerDataProvider;
     }
 
     /**
@@ -40,13 +35,13 @@ class ShippingCostManagement implements ShippingCostManagementInterface
      */
     public function getShippingCost(string $email, int $customerId): ShippingCostInterface
     {
-        $loggedInCustomer = $this->getCustomerById($customerId);
+        $loggedInCustomer = $this->customerDataProvider->getCustomerById($customerId);
 
         if ($loggedInCustomer->getEmail() !== $email) {
             throw new NoSuchEntityException(__('Customer not found'));
         }
 
-        $customer = $this->getCustomerByEmail($email);
+        $customer = $this->customerDataProvider->getCustomerByEmail($email);
 
         $price = $this->shippingCostProvider->getShippingCost($customer);
         if ($price) {
@@ -57,23 +52,5 @@ class ShippingCostManagement implements ShippingCostManagementInterface
         }
 
         throw new NoSuchEntityException(__('Not found'));
-    }
-
-    protected function getCustomerByEmail(string $email): CustomerInterface
-    {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter('email', $email)->create();
-        $result = $this->customerRepository->getList($searchCriteria);
-        $customers = $result->getItems();
-
-        if (!count($customers)) {
-            throw new NoSuchEntityException(__('Customer not found'));
-        }
-
-        return array_pop($customers);
-    }
-
-    protected function getCustomerById(int $customerId): CustomerInterface
-    {
-        return $this->customerRepository->getById($customerId);
     }
 }
