@@ -59,7 +59,7 @@ class ShippingCostProvider
         return null;
     }
 
-    protected function getDefaultPrice(): string
+    public function getDefaultPrice(): string
     {
         return (string)$this->scopeConfig->getValue(Constants::XML_PATH_DEFAULT_SHIPPING_PRICE);
     }

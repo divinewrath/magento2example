@@ -1,0 +1,11 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \MacoOnboarding\CustomShippingModule\ViewModel\ShippingCost $viewModel */
+$viewModel = $block->getViewModel()
+?>
+<div>
+    <span><?= $escaper->escapeHtml(__('Shipping cost from: ')) ?></span>
+    <span><?= $escaper->escapeHtml($viewModel->getFormattedPrice($viewModel->getShippingCost())) ?></span>
+</div>
+
