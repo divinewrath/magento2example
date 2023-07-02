@@ -79,6 +79,9 @@ class AddCustomShippingPriceCustomerAttribute implements DataPatchInterface
                 'user_defined' => true,
                 'system' => false,
                 'position' => 200,
+                'is_used_in_grid' => true,
+                'is_visible_in_grid' => false,
+                'is_filterable_in_grid' => false,
             ]
         );
 
