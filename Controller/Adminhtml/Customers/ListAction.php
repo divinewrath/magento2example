@@ -14,8 +14,15 @@ use Magento\Framework\View\Result\PageFactory;
 class ListAction extends Action implements HttpGetActionInterface
 {
     public const ADMIN_RESOURCE = 'MacoOnboarding_CustomShippingModule::listing';
+    /**
+     * @var PageFactory
+     */
     private PageFactory $pageFactory;
 
+    /**
+     * @param Context $context
+     * @param PageFactory $pageFactory
+     */
     public function __construct(
         Context $context,
         PageFactory $pageFactory
@@ -26,15 +33,12 @@ class ListAction extends Action implements HttpGetActionInterface
     }
 
     /**
-     * Execute action based on request and return result
-     *
-     * @return ResultInterface|ResponseInterface
-     * @throws NotFoundException
+     * @return ResultInterface
      */
     public function execute()
     {
         $resultPage = $this->pageFactory->create();
-        $resultPage->getConfig()->getTitle()->set(__('ZXC 123'));
+        $resultPage->getConfig()->getTitle()->set(__('Customers shipping cost'));
 
         return $resultPage;
     }

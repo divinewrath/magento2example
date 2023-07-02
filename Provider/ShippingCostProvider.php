@@ -9,9 +9,20 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class ShippingCostProvider
 {
+    /**
+     * @var ShippingPricesConfigProvider
+     */
     private ShippingPricesConfigProvider $shippingPricesConfigProvider;
+
+    /**
+     * @var ScopeConfigInterface
+     */
     private ScopeConfigInterface $scopeConfig;
 
+    /**
+     * @param ShippingPricesConfigProvider $shippingPricesConfigProvider
+     * @param ScopeConfigInterface $scopeConfig
+     */
     public function __construct(
         ShippingPricesConfigProvider $shippingPricesConfigProvider,
         ScopeConfigInterface         $scopeConfig
@@ -20,6 +31,10 @@ class ShippingCostProvider
         $this->scopeConfig = $scopeConfig;
     }
 
+    /**
+     * @param CustomerInterface $customer
+     * @return mixed|null
+     */
     public function getShippingCost(CustomerInterface $customer)
     {
         $customerPrice = $this->getCustomerPrice($customer);
@@ -41,6 +56,10 @@ class ShippingCostProvider
         return $prices[0] ?? null;
     }
 
+    /**
+     * @param CustomerInterface $customer
+     * @return mixed|null
+     */
     protected function getCustomerGroupPrice(CustomerInterface $customer)
     {
         $groupId = $customer->getGroupId();
@@ -49,6 +68,10 @@ class ShippingCostProvider
         return $groupPrices[$groupId] ?? null;
     }
 
+    /**
+     * @param CustomerInterface $customer
+     * @return mixed|null
+     */
     protected function getCustomerPrice(CustomerInterface $customer)
     {
         $customAttributes = $customer->getCustomAttributes();
@@ -59,6 +82,9 @@ class ShippingCostProvider
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getDefaultPrice(): string
     {
         return (string)$this->scopeConfig->getValue(Constants::XML_PATH_DEFAULT_SHIPPING_PRICE);

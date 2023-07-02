@@ -9,8 +9,15 @@ use Magento\Framework\Exception\LocalizedException;
 
 class CustomerGroupPrice extends AbstractFieldArray
 {
-    private CustomerGroups|null $customerGroups = null;
+    /**
+     * @var CustomerGroups|null
+     */
+    private ?CustomerGroups $customerGroups = null;
 
+    /**
+     * @return void
+     * @throws LocalizedException
+     */
     protected function _prepareToRender(): void
     {
         $this->addColumn('customer_groups', [
@@ -24,6 +31,7 @@ class CustomerGroupPrice extends AbstractFieldArray
     }
 
     /**
+     * @param DataObject $row
      * @throws LocalizedException
      */
     protected function _prepareArrayRow(DataObject $row): void
@@ -32,7 +40,8 @@ class CustomerGroupPrice extends AbstractFieldArray
 
         $customerGroup = $row->getCustomerGroups();
         if ($customerGroup !== null) {
-            $options['option_' . $this->getCustomerGroupsRenderer()->calcOptionHash($customerGroup)] = 'selected="selected"';
+            $optionHash = $this->getCustomerGroupsRenderer()->calcOptionHash($customerGroup);
+            $options['option_' . $optionHash] = 'selected="selected"';
         }
 
         $row->setData('option_extra_attrs', $options);

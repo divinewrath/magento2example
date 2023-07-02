@@ -9,9 +9,20 @@ use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 
 class ShippingPricesConfigProvider
 {
+    /**
+     * @var ScopeConfigInterface
+     */
     private ScopeConfigInterface $scopeConfig;
+
+    /**
+     * @var JsonSerializer
+     */
     private JsonSerializer $jsonSerializer;
 
+    /**
+     * @param ScopeConfigInterface $scopeConfig
+     * @param JsonSerializer $jsonSerializer
+     */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         JsonSerializer       $jsonSerializer
@@ -20,6 +31,9 @@ class ShippingPricesConfigProvider
         $this->jsonSerializer = $jsonSerializer;
     }
 
+    /**
+     * @return array
+     */
     public function getGroupPrices(): array
     {
         $groupPrices = $this->scopeConfig->getValue(Constants::XML_PATH_CUSTOM_SHIPPING_GROUP_PRICES);

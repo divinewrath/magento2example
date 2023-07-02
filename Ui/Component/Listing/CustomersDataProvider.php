@@ -11,14 +11,32 @@ use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 
 class CustomersDataProvider extends DataProvider
 {
+    /**
+     * @var ShippingPricesConfigProvider
+     */
     private ShippingPricesConfigProvider $shippingPricesConfigProvider;
 
+    /**
+     * @var array
+     */
     private array $shippingPrices = [];
 
+    /**
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
+     * @param ReportingInterface $reporting
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param RequestInterface $request
+     * @param FilterBuilder $filterBuilder
+     * @param ShippingPricesConfigProvider $shippingPricesConfigProvider
+     * @param array $meta
+     * @param array $data
+     */
     public function __construct(
-        $name,
-        $primaryFieldName,
-        $requestFieldName,
+        string $name,
+        string $primaryFieldName,
+        string $requestFieldName,
         ReportingInterface $reporting,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         RequestInterface $request,
@@ -42,6 +60,9 @@ class CustomersDataProvider extends DataProvider
         $this->shippingPricesConfigProvider = $shippingPricesConfigProvider;
     }
 
+    /**
+     * @return array
+     */
     public function getData(): array
     {
         $customers = parent::getData();
@@ -58,6 +79,9 @@ class CustomersDataProvider extends DataProvider
         return $customers;
     }
 
+    /**
+     * @return array
+     */
     protected function getShippingPrices(): array
     {
         if (!$this->shippingPrices) {

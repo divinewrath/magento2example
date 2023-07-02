@@ -12,11 +12,26 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class ShippingCostManagement implements ShippingCostManagementInterface
 {
+    /**
+     * @var ShippingCostInterfaceFactory
+     */
     private ShippingCostInterfaceFactory $shippingCostFactory;
 
+    /**
+     * @var ShippingCostProvider
+     */
     private ShippingCostProvider $shippingCostProvider;
+
+    /**
+     * @var CustomerDataProvider
+     */
     private CustomerDataProvider $customerDataProvider;
 
+    /**
+     * @param ShippingCostInterfaceFactory $shippingCostFactory
+     * @param ShippingCostProvider $shippingCostProvider
+     * @param CustomerDataProvider $customerDataProvider
+     */
     public function __construct(
         ShippingCostInterfaceFactory $shippingCostFactory,
         ShippingCostProvider         $shippingCostProvider,

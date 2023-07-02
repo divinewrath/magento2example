@@ -8,6 +8,10 @@ use Magento\Framework\Exception\ValidatorException;
 
 class ShipmentSerialized extends ArraySerialized
 {
+    /**
+     * @return ShipmentSerialized
+     * @throws ValidatorException
+     */
     public function beforeSave(): ShipmentSerialized
     {
         $array = $this->getValue();
@@ -20,6 +24,11 @@ class ShipmentSerialized extends ArraySerialized
         return parent::beforeSave();
     }
 
+    /**
+     * @param array $customerGroupPrices
+     * @return void
+     * @throws ValidatorException
+     */
     protected function checkDuplicates(array $customerGroupPrices): void
     {
         $customerGroups = array_column($customerGroupPrices, 'customer_groups');

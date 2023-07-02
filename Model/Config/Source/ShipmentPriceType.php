@@ -10,6 +10,9 @@ class ShipmentPriceType implements OptionSourceInterface
     public const PRICE_TYPE_FOR_ITEM = 'for_item';
     public const PRICE_TYPE_FOR_SHIPMENT = 'for_shipment';
 
+    /**
+     * @return array[]
+     */
     public function toOptionArray(): array
     {
         return [

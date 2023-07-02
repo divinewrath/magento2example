@@ -8,11 +8,18 @@ use Magento\Framework\Model\AbstractModel;
 
 class ShippingCost extends AbstractModel implements ShippingCostInterface
 {
-    public function getShippingCost()
+    /**
+     * @return string
+     */
+    public function getShippingCost(): string
     {
         return $this->getData(self::SHIPPING_COST);
     }
 
+    /**
+     * @param string $shippingCost
+     * @return self
+     */
     public function setShippingCost(string $shippingCost): self
     {
         return $this->setData(self::SHIPPING_COST, $shippingCost);

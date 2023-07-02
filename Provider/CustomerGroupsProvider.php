@@ -9,19 +9,31 @@ use Magento\Customer\Model\ResourceModel\Group\CollectionFactory as CustomerGrou
 
 class CustomerGroupsProvider
 {
+    /**
+     * @var CustomerGroupCollectionFactory
+     */
     private CustomerGroupCollectionFactory $customerGroupCollectionFactory;
 
+    /**
+     * @param CustomerGroupCollectionFactory $customerGroupCollectionFactory
+     */
     public function __construct(CustomerGroupCollectionFactory $customerGroupCollectionFactory)
     {
         $this->customerGroupCollectionFactory = $customerGroupCollectionFactory;
     }
 
+    /**
+     * @return CustomerGroupCollection
+     */
     protected function getCustomerGroupCollection(): CustomerGroupCollection
     {
         return $this->customerGroupCollectionFactory->create();
     }
 
-    public function getCustomerGroups()
+    /**
+     * @return array
+     */
+    public function getCustomerGroups(): array
     {
         $customerGroupsCollection = $this->getCustomerGroupCollection();
         $customerGroups = $customerGroupsCollection->toOptionArray();

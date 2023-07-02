@@ -44,7 +44,7 @@
         </column>
         <column name="email">
             <settings>
-                <filter>textRange</filter>
+                <filter>text</filter>
                 <label translate="true">Email</label>
                 <sorting>desc</sorting>
             </settings>

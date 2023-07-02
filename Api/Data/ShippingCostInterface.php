@@ -8,7 +8,7 @@ interface ShippingCostInterface
     /**
      * @return string
      */
-    public function getShippingCost();
+    public function getShippingCost(): string;
 
     /**
      * @param string $shippingCost

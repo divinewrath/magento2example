@@ -1,10 +1,4 @@
 <?php
-/**
- * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @author Łukasz Wojciechowski <contact@kaliop.com>
- * @copyright Copyright (c) 2023 Kaliop Digital Commerce (https://digitalcommerce.kaliop.com)
- */
-
 declare(strict_types=1);
 
 namespace MacoOnboarding\CustomShippingModule\Model\GraphQL\Resolver;
@@ -16,12 +10,24 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Magento\GraphQl\Model\Query\Context;
 
 class ShippingCost implements ResolverInterface
 {
+    /**
+     * @var ShippingCostProvider
+     */
     private ShippingCostProvider $shippingCostProvider;
+
+    /**
+     * @var CustomerDataProvider
+     */
     private CustomerDataProvider $customerDataProvider;
 
+    /**
+     * @param ShippingCostProvider $shippingCostProvider
+     * @param CustomerDataProvider $customerDataProvider
+     */
     public function __construct(
         ShippingCostProvider $shippingCostProvider,
         CustomerDataProvider $customerDataProvider
@@ -30,7 +36,16 @@ class ShippingCost implements ResolverInterface
         $this->customerDataProvider = $customerDataProvider;
     }
 
-    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
+    /**
+     * @param Field $field
+     * @param Context $context
+     * @param ResolveInfo $info
+     * @param array|null $value
+     * @param array|null $args
+     * @return array
+     * @throws GraphQlInputException
+     */
+    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null): array
     {
         if (!$context->getUserId()) {
             throw new GraphQlInputException(__('Customer must be logged'));
