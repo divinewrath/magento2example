@@ -41,19 +41,15 @@ class ShippingCostProvider
         $groupPrice = $this->getCustomerGroupPrice($customer);
         $defaultPrice = $this->getDefaultPrice();
 
-        $prices = array_filter([
-            $customerPrice,
-            $groupPrice,
-            $defaultPrice
-        ], static function ($price) {
-            return is_string($price) && is_numeric($price);
-        });
+        if (is_numeric($customerPrice)) {
+            return $customerPrice;
+        }
 
-        usort($prices, static function ($a, $b) {
-            return bccomp($a, $b, 2);
-        });
+        if (is_numeric($groupPrice)) {
+            return $groupPrice;
+        }
 
-        return $prices[0] ?? null;
+        return $defaultPrice;
     }
 
     /**
