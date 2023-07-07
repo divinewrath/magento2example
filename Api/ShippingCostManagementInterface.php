@@ -8,7 +8,7 @@ interface ShippingCostManagementInterface
     /**
      * @param string $email
      * @param int $customerId
-     * @return ShippingCostInterface
+     * @return \MacoOnboarding\CustomShippingModule\Api\Data\ShippingCostInterface
      */
     public function getShippingCost(string $email, int $customerId): ShippingCostInterface;
 }
