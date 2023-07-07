@@ -24,7 +24,7 @@ class CustomerGroupPrice extends AbstractFieldArray
             'label' => __('Customer groups'),
             'renderer' => $this->getCustomerGroupsRenderer()
         ]);
-        $this->addColumn('price', ['label' => __('Price'), 'class' => 'required-entry validate-number']);
+        $this->addColumn('price', ['label' => __('Price'), 'class' => 'required-entry']);
 
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add');
