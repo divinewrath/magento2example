@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="MacoOnboarding_CustomShippingModule::listing" sortOrder="200" title="Customer shipping costs" module="MacoOnboarding_CustomShippingModule" parent="Magento_Customer::customer" resource="MacoOnboarding_CustomShippingModule::listing" translate="title" action="custom_shipping/customers/listAction"/>
+    </menu>
+</config>
